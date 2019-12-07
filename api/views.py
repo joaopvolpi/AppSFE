@@ -7,9 +7,6 @@ from .models import *
 from .serializers import *
 
 
-class UserCreate(generics.CreateAPIView):
-    serializer_class = UserSerializer   
-
 
 class PalestraList(APIView):
     def get(self, request):
@@ -23,5 +20,21 @@ class PalestraDetail(APIView):
     def get(self, request, pk):
         palestra = get_object_or_404(Palestra, pk=pk)
         data = PalestraSerializer(palestra).data
+
+        return Response(data)
+
+
+class FormList(APIView):
+    def get(self, request):
+        form = Form.objects.all()
+        data = FormSerializer(form, many=True).data
+        
+        return Response(data)
+
+
+class FormDetail(APIView):
+    def get(self, request, pk):
+        form = get_object_or_404(Form, pk=pk)
+        data = FormSerializer(form).data
 
         return Response(data)
