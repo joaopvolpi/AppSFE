@@ -1,9 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
-
-# Create your models here.
-
-from django.db import models
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
@@ -33,7 +29,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
-
+        extra_fields.setdefault('is_staff', True)
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
@@ -41,14 +37,14 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
-    nome = models.CharField(_('nome'), max_length=30, blank=True)
-    dre = models.CharField(_('dre'), max_length=9, blank=True)
-
+    email = models.EmailField('email address', unique=True)
+    nome = models.CharField('nome', max_length=30, blank=True)
+    dre = models.CharField('dre', max_length=9, blank=True)
+    is_staff = models.BooleanField('Eh da equipe?',blank=True,default=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['nome']
 
     class Meta:
         verbose_name = _('user')
@@ -62,12 +58,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Palestra(models.Model):
     
-    nome = models.CharField(max_length=100)
+    tema = models.CharField(max_length=100)
     palestrante = models.CharField(max_length=100)
     descricao = models.CharField(max_length=1000)
     sala = models.CharField(max_length=20)
     
-    data = models.DateTimeField()
+    data = models.CharField(max_length=15)
 
     
     def __str__(self):
@@ -84,9 +80,6 @@ class Form(models.Model):
 	Pergunta3 = models.CharField(max_length=100)
 	Pergunta4 = models.CharField(max_length=100)
 	Pergunta5 = models.CharField(max_length=100)
-
-
-	data = models.DateTimeField()
 
 
 	def __str__(self):
