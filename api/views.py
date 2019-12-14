@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 
 
 class PalestraList(APIView):
@@ -36,5 +39,20 @@ class FormDetail(APIView):
     def get(self, request, pk):
         form = get_object_or_404(Form, pk=pk)
         data = FormSerializer(form).data
+
+        return Response(data)
+
+
+class UserList(APIView):
+    def get(self, request):
+        user = User.objects.all()
+        data = UserSerializer(user, many=True).data
+        
+        return Response(data)
+
+class UserDetail(APIView):
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        data = UserSerializer(user).data
 
         return Response(data)
