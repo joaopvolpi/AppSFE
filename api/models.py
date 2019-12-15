@@ -83,4 +83,4 @@ class Form(models.Model):
 
 
 	def __str__(self):
-		return self.nome + " - " + self.palestrante 
+		return self.autor + " - " + self.id_palestra 
