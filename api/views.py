@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 from django.contrib.auth import authenticate
+from rest_framework.permissions import * 
 
 from rest_framework import status
 
@@ -61,6 +62,8 @@ class FormDetail(APIView):
 
 
 class UserList(APIView):
+    permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA VER DADOS DOS USUARIOS
+
     def get(self, request):
         user = User.objects.all()
         data = UserSerializer(user, many=True).data
@@ -68,6 +71,8 @@ class UserList(APIView):
         return Response(data)
 
 class UserDetail(APIView):
+    permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA VER DADOS DO USUARIO
+
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
         data = UserSerializer(user).data
@@ -76,6 +81,7 @@ class UserDetail(APIView):
 
 
 class UserCreate(generics.CreateAPIView):
+    permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA CRIAR O USUÁRIO, POIS QUEREMOS QUE A PESSOA VÁ À BANCADA
     serializer_class = UserSerializer
 
 
