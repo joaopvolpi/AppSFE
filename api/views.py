@@ -7,12 +7,29 @@ from .models import *
 from .serializers import *
 from django.contrib.auth import authenticate
 from rest_framework.permissions import * 
+from django.http import HttpResponse
+from rest_framework.renderers import JSONRenderer
 
 from rest_framework import status
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+
+def favoritar(request, id):
+    palestra = get_object_or_404(Palestra, id=id)
+    if palestra.favorito.filter(id=request.user.id).exists():
+        palestra.favorito.remove(request.user)
+    else:
+        palestra.favorito.add(request.user)
+    return HttpResponse(status=201)
+
+def lista_favoritos(request):
+    user = request.user
+    lista_favs = user.favorito.all()
+    data = PalestraSerializer(lista_favs, many=True).data
+    print(data)
+    return Response(data)
 
 
 class PalestraList(APIView):

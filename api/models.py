@@ -5,9 +5,11 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
-
 from django.contrib.auth.base_user import BaseUserManager
-
+'''
+from django.contrib.auth import get_user_model
+User = get_user_model()
+'''
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -60,14 +62,17 @@ class Palestra(models.Model):
     
     tema = models.CharField(max_length=100)
     palestrante = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=1000)
+    descricao_palestra = models.CharField(max_length=1000)
+    descricao_palestrante = models.CharField(max_length=1000)
+    #foto_palestrante =  
     sala = models.CharField(max_length=20)
-    
+    horario = models.CharField(max_length=20)
     data = models.CharField(max_length=15)
+    favorito = models.ManyToManyField(User, related_name="favorito", blank=True) 
 
     
     def __str__(self):
-        return self.nome + " - " + self.palestrante 
+        return self.tema + " - " + self.palestrante 
 
 
 class Form(models.Model):
