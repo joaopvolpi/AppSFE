@@ -9,43 +9,116 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import * 
 from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
+from django.http import JsonResponse
 
 from rest_framework import status
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+'''
+
+- O favoritar está com defeito (algum defeito no login) pois o programa não reconhece qual usuário
+está logado (no request.user retorna AnonymousUser), mas reconhece que o usuário está logado (pois pode ver as palestras).
+
+-Ajeitar o serializer para o favorito da palestra retornar True ou False quando
+requisitado por determinado usuário, e não o favorito mostrar a lista de usuários
+que favoritaram a palestra. 
+
+
+'''
 
 def favoritar(request, id):
     palestra = get_object_or_404(Palestra, id=id)
+
+    print(palestra)
+    print(request.user) #Está retornando AnonymousUser ERRADO
+    print(request.user.is_authenticated)
+    print(request.user.id)
+
     if palestra.favorito.filter(id=request.user.id).exists():
         palestra.favorito.remove(request.user)
     else:
         palestra.favorito.add(request.user)
-    return HttpResponse(status=201)
 
+    return JsonResponse(data={}, status=status.HTTP_200_OK)
+     
+
+'''
 def lista_favoritos(request):
     user = request.user
     lista_favs = user.favorito.all()
     data = PalestraSerializer(lista_favs, many=True).data
     print(data)
     return Response(data)
+'''
+
+class ListaFavs(APIView):   #View que mostra a lista de favoritos do usuário
+    def get(self, request):
+        user = request.user
+        lista_favs = user.favorito.all()
+        data = PalestraSerializer(lista_favs, many=True).data
+        return Response(data)
 
 
 class PalestraList(APIView):
     def get(self, request):
         palestra = Palestra.objects.all()
-        data = PalestraSerializer(palestra, many=True).data
+        data = PalestraSerializer(palestra, many=True).data   #VIEW P/ VER LISTA DE PALESTRAS
         
         return Response(data)
 
 
 class PalestraDetail(APIView):
     def get(self, request, pk):
-        palestra = get_object_or_404(Palestra, pk=pk)
+        palestra = get_object_or_404(Palestra, pk=pk)     #VIEW P/ VER PALESTRA PARTICULAR
         data = PalestraSerializer(palestra).data
 
         return Response(data)
+
+
+class PalestraPost(APIView):
+
+    permission_classes  = [IsAdminUser]  
+
+    '''
+
+    View para postar palestra (separei das outras pq eh necessario ser admin para postar, assim como 
+    para deletar e editar as palestras). Como não consegui uma maneira fácil de separar os métodos
+    por permissões, separei as views. 
+
+
+    '''
+
+    def post(self, request):
+        tema = request.data['tema']
+        descricao_palestra = request.data['descricao_palestra']
+        palestrante = request.data['palestrante']
+        descricao_palestrante = request.data['descricao_palestrante']
+        sala = request.data['sala']
+        horario = request.data['horario']
+        data = request.data['data']
+        #foto_palestrante = request.data['foto_palestrante']
+
+        postagem = Palestra(tema= tema, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, horario=horario, data=data)
+        postagem.save()
+        data = PalestraSerializer(postagem).data
+        return Response(data)
+
+
+class PalestraDelete(APIView):
+
+    permission_classes  = [IsAdminUser]
+
+    def delete(self, request, pk):
+        palestra = get_object_or_404(Palestra, pk=pk)
+        
+        palestra.delete()
+
+        return Response(status=status.HTTP_200_OK)
+
+
+
 
 
 class FormList(APIView):
