@@ -12,7 +12,6 @@ from rest_framework.renderers import JSONRenderer
 from django.http import JsonResponse
 
 from rest_framework import status
-
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -27,21 +26,6 @@ que favoritaram a palestra.
 
 
 '''
-
-def favoritar(request, id):
-    palestra = get_object_or_404(Palestra, id=id)
-
-    print(palestra)
-    print(request.user) #Está retornando AnonymousUser ERRADO
-    print(request.user.is_authenticated)
-    print(request.user.id)
-
-    if palestra.favorito.filter(id=request.user.id).exists():
-        palestra.favorito.remove(request.user)
-    else:
-        palestra.favorito.add(request.user)
-
-    return JsonResponse(data={}, status=status.HTTP_200_OK)
      
 
 '''
