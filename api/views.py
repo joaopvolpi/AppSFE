@@ -28,20 +28,21 @@ que favoritaram a palestra.
 
 '''
 
-def favoritar(request, id):
-    palestra = get_object_or_404(Palestra, id=id)
+class FavoriteView(APIView):
+    def get(self, request, id):
+        palestra = get_object_or_404(Palestra, id=id)
 
-    print(palestra)
-    print(request.user) #Está retornando AnonymousUser ERRADO
-    print(request.user.is_authenticated)
-    print(request.user.id)
+        print(palestra)
+        print(request.user) #Está retornando AnonymousUser ERRADO // Ta mais não :D
+        print(request.user.is_authenticated)
+        print(request.user.id)
 
-    if palestra.favorito.filter(id=request.user.id).exists():
-        palestra.favorito.remove(request.user)
-    else:
-        palestra.favorito.add(request.user)
+        if palestra.favorito.filter(id=request.user.id).exists():
+            palestra.favorito.remove(request.user)
+        else:
+            palestra.favorito.add(request.user)
 
-    return JsonResponse(data={}, status=status.HTTP_200_OK)
+        return Response(data={ "message": "Palestra favoritada" }, status=status.HTTP_200_OK)
      
 
 '''
