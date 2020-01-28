@@ -3,14 +3,19 @@ from .models import *
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 User = get_user_model()
-
+from .views import *
+from .models import *
 
 class PalestraSerializer(serializers.ModelSerializer):
+
+    #favorito = serializers.StringRelatedField(many=True)  
+    #user =  self.context['request'].user
 
     class Meta:
 
         model = Palestra
         fields = '__all__'
+        
 
 class FormSerializer(serializers.ModelSerializer):
 
@@ -29,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = User
-        fields = ('nome', 'email', 'dre', 'password')
+        fields = ('nome', 'email', 'dre', 'password', "foto_perfil")
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

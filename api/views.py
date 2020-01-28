@@ -17,17 +17,28 @@ User = get_user_model()
 
 '''
 
-- O favoritar está com defeito (algum defeito no login) pois o programa não reconhece qual usuário
-está logado (no request.user retorna AnonymousUser), mas reconhece que o usuário está logado (pois pode ver as palestras).
-
 -Ajeitar o serializer para o favorito da palestra retornar True ou False quando
 requisitado por determinado usuário, e não o favorito mostrar a lista de usuários
 que favoritaram a palestra. 
 
 
 '''
-<<<<<<< HEAD
-=======
+
+
+class AddFotoPerfilView(APIView):
+    def put(self,request):   #VIEW PARA ADICIONAR FOTO DE PERFIL
+
+        foto_perfil = request.data["foto_perfil"] 
+        user = get_object_or_404(User, id=request.user.id)
+
+        user.foto_perfil = foto_perfil
+
+        user.save()
+
+        return Response(data={ "message": "Foto adicionada" }, status=status.HTTP_200_OK) 
+        
+
+
 
 class FavoriteView(APIView):
     def get(self, request, id):
@@ -40,26 +51,16 @@ class FavoriteView(APIView):
 
         if palestra.favorito.filter(id=request.user.id).exists():
             palestra.favorito.remove(request.user)
+            return Response(data={ "message": "Palestra removida dos favoritos" }, status=status.HTTP_200_OK)
         else:
             palestra.favorito.add(request.user)
-
-        return Response(data={ "message": "Palestra favoritada" }, status=status.HTTP_200_OK)
->>>>>>> 5dfea46528bedb4cffe39d5a70ee91c8948dde5a
+            return Response(data={ "message": "Palestra favoritada" }, status=status.HTTP_200_OK)
      
-
-'''
-def lista_favoritos(request):
-    user = request.user
-    lista_favs = user.favorito.all()
-    data = PalestraSerializer(lista_favs, many=True).data
-    print(data)
-    return Response(data)
-'''
 
 class ListaFavs(APIView):   #View que mostra a lista de favoritos do usuário
     def get(self, request):
         user = request.user
-        lista_favs = user.favorito.all()
+        lista_favs = user.favorito.all()            
         data = PalestraSerializer(lista_favs, many=True).data
         return Response(data)
 
@@ -75,9 +76,18 @@ class PalestraList(APIView):
 class PalestraDetail(APIView):
     def get(self, request, pk):
         palestra = get_object_or_404(Palestra, pk=pk)     #VIEW P/ VER PALESTRA PARTICULAR
-        data = PalestraSerializer(palestra).data
+        '''
+        if palestra.favorito.filter(id=request.user.id).exists():
+            fav_user = True
+        else:
+            fav_user = False
 
-        return Response(data)
+        serializer = PalestraSerializer(palestra, context={'fav_user': fav_user})
+        
+        '''
+        serializer = PalestraSerializer(palestra, context={'request': request})
+
+        return Response(serializer.data)
 
 
 class PalestraPost(APIView):
@@ -101,9 +111,9 @@ class PalestraPost(APIView):
         sala = request.data['sala']
         horario = request.data['horario']
         data = request.data['data']
-        #foto_palestrante = request.data['foto_palestrante']
+        foto_palestrante = request.data['foto_palestrante']
 
-        postagem = Palestra(tema= tema, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, horario=horario, data=data)
+        postagem = Palestra(tema= tema, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, horario=horario, data=data, foto_palestrante=foto_palestrante)
         postagem.save()
         data = PalestraSerializer(postagem).data
         return Response(data)
@@ -121,7 +131,19 @@ class PalestraDelete(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+class PalestraEdit(APIView):
+    permission_classes = [IsAdminUser]
 
+    def put(self, request, pk):
+        palestra = get_object_or_404(Palestra, pk=pk)
+
+        serializer = PalestraSerializer(palestra, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class FormList(APIView):
@@ -188,3 +210,13 @@ class LoginView(APIView):
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Senha incorreta"}, status=status.HTTP_400_BAD_REQUEST)
+
+'''
+
+class LogoutView(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response({'message': "Faça login novamente"},status=status.HTTP_200_OK)
+
+'''

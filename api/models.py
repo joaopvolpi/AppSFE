@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     nome = models.CharField('nome', max_length=30, blank=True)
     dre = models.CharField('dre', max_length=9, blank=True)
+    foto_perfil = models.ImageField(blank=True,null=True,upload_to="fotos_perfil")
     is_staff = models.BooleanField('Eh da equipe?',blank=True,default=False)
     objects = UserManager()
 
@@ -53,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def get_nome(self):
-
+        
         return self.nome
 
 
@@ -64,10 +65,12 @@ class Palestra(models.Model):
     palestrante = models.CharField(max_length=100)
     descricao_palestra = models.CharField(max_length=1000)
     descricao_palestrante = models.CharField(max_length=1000)
-    #foto_palestrante =  
+    foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
     sala = models.CharField(max_length=20)
     horario = models.CharField(max_length=20)
     data = models.CharField(max_length=15)
+    
+
     favorito = models.ManyToManyField(User, related_name="favorito", blank=True) 
 
     
