@@ -15,6 +15,10 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+#from rest_framework_swagger.views import get_swagger_view
+#schema_view = get_swagger_view(title='API')
+
+
 '''
 
 -Ajeitar o serializer para o favorito da palestra retornar True ou False quando

@@ -8,11 +8,17 @@ verify_ssl = true
 [packages]
 django = "*"
 djangorestframework = "*"
-sqlite3 = "*"
-pillow = "*"
 django-heroku = "*"
-gunicorn = "*"
+pillow = "*"
+requests = "*"
+django-allauth = "*"
+rest-framework-swagger = "*"
+django-rest-swagger = "*"
+pyyaml = "*"
 
 
 [requires]
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
