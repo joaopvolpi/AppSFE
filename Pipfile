@@ -12,10 +12,9 @@ django-heroku = "*"
 pillow = "*"
 requests = "*"
 django-allauth = "*"
-rest-framework-swagger = "*"
 django-rest-swagger = "*"
 pyyaml = "*"
-
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"
