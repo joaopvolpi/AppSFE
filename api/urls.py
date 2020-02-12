@@ -15,8 +15,8 @@ urlpatterns = [
     path("palestra/delete/<int:pk>/", PalestraDelete.as_view()),
     path("palestra/update/<int:pk>/", PalestraEdit.as_view()),
 
-    path("form/", FormList.as_view()),                             #VER LISTA DE FORMS - ADMIN
-    path("form/<int:pk>/", FormDetail.as_view()),
+    path("form/<int:id>/", FormPost.as_view()),                #USUARIO AVALIA A PALESTRA QUE VISITOU
+    #path("form/<int:pk>/", FormDetail.as_view()),
 
     path("users/", UserList.as_view()),                            #VER LISTA DE USUARIOS  -ADMIN
     path("users/<int:pk>/", UserDetail.as_view()),                 #VER DETERMINADO USUARIO
@@ -28,24 +28,18 @@ urlpatterns = [
     path("favoritar/<int:id>/", FavoriteView().as_view(), name="favoritar"),  
     path("verfavoritos/", ListaFavs.as_view(), name="lista_favoritos"),
 
+    path("validar/<int:id>/", ValidacaoView.as_view()), #ESSE EH O TESTE DO QR CODE SEM QR CODE
 
-    #Essas URLs abaixo são apenas para documentar
+    path("foinapalestra/<int:id>/", FoiNaPalestraList.as_view()), 
+
+
+
+    #Essa URL abaixo são apenas para documentar, apesar de não estar funcionando direito
 
     path("swagger/", schema_view), 
 
 
 ]
 
-'''
-path('swagger-ui/', TemplateView.as_view(
-template_name='swagger-ui.html',
-extra_context={'schema_url':'openapi-schema'}
-    ), name='swagger-ui'),
 
-path('openapi/', get_schema_view(
-    title="API AppSFE",
-    description="La semaine Fluxo",
-    version="1.0.0"
-), name='openapi-schema'),
-'''
 

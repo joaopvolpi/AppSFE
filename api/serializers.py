@@ -14,17 +14,18 @@ class PalestraSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Palestra
-        fields = '__all__'
+        exclude = ['foi_na_palestra', 'favorito']
         
 
 class FormSerializer(serializers.ModelSerializer):
 
-    #owner=
-
     class Meta:
+
+        owner = serializers.ReadOnlyField(source='owner.email')
 
         model = Form
         fields = '__all__'
+        
 
 
 

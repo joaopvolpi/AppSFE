@@ -10,6 +10,7 @@ from rest_framework.permissions import *
 from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from django.http import JsonResponse
+from rest_framework.renderers import TemplateHTMLRenderer
 
 from rest_framework import status
 from django.contrib.auth import get_user_model
@@ -149,28 +150,45 @@ class PalestraEdit(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#################################
+class FormPost(APIView):
 
-class FormList(APIView):
-    def get(self, request):
-        form = Form.objects.all()
+    def post(self, request, id):
+
+        palestra = get_object_or_404(Palestra, id=id)
+
+        if palestra.foi_na_palestra.filter(id=request.user.id).exists(): #Usuário tem que ter ido na palestra para avaliá-la
+            serializer = FormSerializer(data=request.data)
+
+            print(serializer.is_valid())
+            serializer.errors
+            if serializer.is_valid():
+                serializer.save(owner=request.user)
+
+            return Response(serializer, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data={ "message": "Você deve ir na palestra para poder avaliá-la" }, status=status.HTTP_200_OK)
+
+    
+    def perform_create(self, serializer):
+        print("oi oi oi")
+        serializer.save(owner=self.request.user)
+    
+
+
+
+
+class VerRespostasForms(APIView):
+    
+    def get(self, request, id):
+        form = Form.palestra_pertencente.filter(id=id)
         data = FormSerializer(form, many=True).data
         
         return Response(data)
-'''
-    def post(self, request):
-        autor = request.data['autor']
-        id_palestra = request.data['id_palestra']
-        pergunta1 = request.data['Pergunta1']
-        pergunta1 = request.data['Pergunta2']
-        pergunta1 = request.data['Pergunta3']
-        pergunta1 = request.data['Pergunta4']
-        pergunta1 = request.data['Pergunta5']
+    
 
-        form = Form(autor=autor, id_palestra=id_palestra, pergunta1=pergunta1,pergunta2=pergunta2,pergunta3=pergunta3,pergunta4=pergunta4,pergunta5=pergunta5)
-        postagem.save()
-        data = PostagemSerializer(postagem).data
-        return Response(data)
-'''
+
+####################################
 
 class FormDetail(APIView):
     def get(self, request, pk):
@@ -213,14 +231,50 @@ class LoginView(APIView):
         if user:
             return Response({"token": user.auth_token.key})
         else:
-            return Response({"error": "Senha incorreta"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Senha ou email incorreto"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ValidacaoView(APIView):
+    def get(self, request, id):
+        palestra = get_object_or_404(Palestra, id=id)
+
+        if palestra.foi_na_palestra.filter(id=request.user.id).exists():
+            return Response(data={ "message": "Sua presença já foi contabilizada" }, status=status.HTTP_200_OK)
+        else:
+            palestra.foi_na_palestra.add(request.user)
+            return Response(data={ "message": "Presença contabilizada!" }, status=status.HTTP_200_OK)
+
+class FoiNaPalestraList(APIView):
+
+    #renderer_classes = [TemplateHTMLRenderer]
+    #template_name = 'foinapalestra.html'
+
+    def get(self, request, id):
+        users = User.objects.filter(foi_na_palestra=id)
+        palestra = get_object_or_404(Palestra, id=id)
+
+        serializer_class = UserSerializer
+        permission_classes = [IsAdminUser]
+        
+        data = UserSerializer(users, many=True).data
+
+        return Response(data)
+
+
+
+
+
+
+
 
 '''
+pergunta1 = request.data['pergunta1']
+pergunta2 = request.data['pergunta2']
+pergunta3 = request.data['pergunta3']
+pergunta4 = request.data['pergunta4']
+pergunta5 = request.data['pergunta5']
 
-class LogoutView(APIView):
-    def get(self, request, format=None):
-        # simply delete the token to force a login
-        request.user.auth_token.delete()
-        return Response({'message': "Faça login novamente"},status=status.HTTP_200_OK)
-
+form = Form(Pergunta1=pergunta1,Pergunta2=pergunta2,Pergunta3=pergunta3,Pergunta4=pergunta4,Pergunta5=pergunta5)
+form.save()
+data = FormSerializer(form).data
 '''

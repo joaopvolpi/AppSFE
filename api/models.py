@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
-    nome = models.CharField('nome', max_length=30, blank=True)
+    nome = models.CharField('nome', max_length=30, blank=False)
     dre = models.CharField('dre', max_length=9, blank=True)
     foto_perfil = models.ImageField(blank=True,null=True,upload_to="fotos_perfil")
     is_staff = models.BooleanField('Eh da equipe?',blank=True,default=False)
@@ -72,6 +72,7 @@ class Palestra(models.Model):
     
 
     favorito = models.ManyToManyField(User, related_name="favorito", blank=True) 
+    foi_na_palestra = models.ManyToManyField(User, related_name="foi_na_palestra", blank=True) 
 
     
     def __str__(self):
@@ -79,16 +80,16 @@ class Palestra(models.Model):
 
 
 class Form(models.Model):
-    
-	autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	id_palestra = models.ForeignKey(Palestra, on_delete=models.CASCADE)
-
-	Pergunta1 = models.CharField(max_length=100)
-	Pergunta2 = models.CharField(max_length=100)
-	Pergunta3 = models.CharField(max_length=100)
-	Pergunta4 = models.CharField(max_length=100)
-	Pergunta5 = models.CharField(max_length=100)
 
 
-	def __str__(self):
-		return self.autor + " - " + self.id_palestra 
+    owner = models.ForeignKey('api.User', on_delete=models.CASCADE)
+
+    palestra_pertencente = models.ForeignKey(Palestra, on_delete=models.CASCADE)
+
+    Pergunta1 = models.CharField(max_length=100)
+    Pergunta2 = models.CharField(max_length=100)
+    Pergunta3 = models.CharField(max_length=100)
+    Pergunta4 = models.CharField(max_length=100)
+    Pergunta5 = models.CharField(max_length=100)
+
+ 
