@@ -72,7 +72,7 @@ class ListaFavs(APIView):   #View que mostra a lista de favoritos do usuário
 
 class PalestraList(APIView):
     def get(self, request):
-        palestra = Palestra.objects.all()
+        palestra = Palestra.objects.all().order_by('horario')
         data = PalestraSerializer(palestra, many=True).data   #VIEW P/ VER LISTA DE PALESTRAS
         
         return Response(data)
@@ -151,8 +151,9 @@ class PalestraEdit(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #################################
-class FormPost(APIView):
-
+'''
+class FormPost(generics.CreateAPIView):
+    
     def post(self, request, id):
 
         palestra = get_object_or_404(Palestra, id=id)
@@ -161,19 +162,22 @@ class FormPost(APIView):
             serializer = FormSerializer(data=request.data)
 
             print(serializer.is_valid())
-            serializer.errors
+            print(serializer.errors)
             if serializer.is_valid():
-                serializer.save(owner=request.user)
+                serializer.save()#owner=request.user
 
-            return Response(serializer, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data={ "message": "Você deve ir na palestra para poder avaliá-la" }, status=status.HTTP_200_OK)
-
+    
+    queryset = Form.objects.all()
+    serializer_class = FormSerializer
+    print("oi")
     
     def perform_create(self, serializer):
-        print("oi oi oi")
         serializer.save(owner=self.request.user)
     
+    print("oi oi oi")
 
 
 
@@ -181,12 +185,12 @@ class FormPost(APIView):
 class VerRespostasForms(APIView):
     
     def get(self, request, id):
-        form = Form.palestra_pertencente.filter(id=id)
+        form = Form.objects.filter(palestra_pertencente=id)
         data = FormSerializer(form, many=True).data
         
         return Response(data)
     
-
+'''
 
 ####################################
 
@@ -257,6 +261,19 @@ class FoiNaPalestraList(APIView):
         permission_classes = [IsAdminUser]
         
         data = UserSerializer(users, many=True).data
+
+        return Response(data)
+
+class PalPorDia(APIView):
+
+    def get(self, request, str):
+        
+        #CADA "data" É UMA COISA DIFERENTE, ATENÇÃO
+
+        palestra = Palestra.objects.filter(data=str).order_by('horario')
+        #ordering = ['horario']
+
+        data = PalestraSerializer(palestra, many=True).data
 
         return Response(data)
 

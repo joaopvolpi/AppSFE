@@ -67,8 +67,8 @@ class Palestra(models.Model):
     descricao_palestrante = models.CharField(max_length=1000)
     foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
     sala = models.CharField(max_length=20)
-    horario = models.CharField(max_length=20)
-    data = models.CharField(max_length=15)
+    horario = models.TimeField()
+    data = models.DateField()
     
 
     favorito = models.ManyToManyField(User, related_name="favorito", blank=True) 

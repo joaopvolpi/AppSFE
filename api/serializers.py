@@ -21,16 +21,13 @@ class FormSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        owner = serializers.ReadOnlyField(source='owner.email')
+        #owner = serializers.ReadOnlyField(source='owner.email')
 
         model = Form
         fields = '__all__'
         
 
-
-
 class UserSerializer(serializers.ModelSerializer):
-    #form = serializers.PrimaryKeyRelatedField(many=True,queryset=Form.objects.all())
 
     class Meta:
 
