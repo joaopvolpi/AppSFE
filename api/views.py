@@ -157,9 +157,11 @@ class FormPost(generics.CreateAPIView):
 
     queryset = Form.objects.all()
     serializer_class = FormSerializer
-
+    '''
+    palestra = get_object_or_404(Palestra, id=id)
+    print(palestra)
+    '''
     def perform_create(self, serializer):
-
         serializer.save(owner=self.request.user)
 
 

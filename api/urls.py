@@ -17,7 +17,9 @@ urlpatterns = [
     path("palestra/delete/<int:pk>/", PalestraDelete.as_view()),
     path("palestra/update/<int:pk>/", PalestraEdit.as_view()),
 
-    path("form/", FormPost.as_view()),                #USUARIO AVALIA A PALESTRA QUE VISITOU
+    path("form/", FormPost.as_view()),                             #USUARIO AVALIA A PALESTRA QUE VISITOU
+    #path("verforms/<int:id>/", VerRespostasForms.as_view()),        #ADMIN VE RESPOSTAS AOS FORMS
+    
     
 
     path("users/", UserList.as_view()),                            #VER LISTA DE USUARIOS  -ADMIN
