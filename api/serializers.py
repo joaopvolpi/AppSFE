@@ -18,11 +18,10 @@ class PalestraSerializer(serializers.ModelSerializer):
         
 
 class FormSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-
-        owner = serializers.ReadOnlyField(source='owner.email')
-
+        
         model = Form
         fields = '__all__'
         

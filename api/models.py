@@ -84,7 +84,7 @@ class Form(models.Model):
 
     owner = models.ForeignKey('api.User', on_delete=models.CASCADE)
 
-    palestra_pertencente = models.ForeignKey(Palestra, on_delete=models.CASCADE)
+    #palestra_pertencente = models.ForeignKey(Palestra, on_delete=models.CASCADE)
 
     Pergunta1 = models.CharField(max_length=100)
     Pergunta2 = models.CharField(max_length=100)

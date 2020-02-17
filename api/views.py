@@ -154,24 +154,7 @@ class PalestraEdit(APIView):
 #################################
         
 class FormPost(generics.CreateAPIView):
-    '''
-    def post(self, request, id):
 
-        palestra = get_object_or_404(Palestra, id=id)
-
-        if palestra.foi_na_palestra.filter(id=request.user.id).exists(): #Usuário tem que ter ido na palestra para avaliá-la
-            serializer = FormSerializer(data=request.data)
-
-            print(serializer.is_valid())
-            print(serializer.errors)
-            if serializer.is_valid():
-                serializer.save()#owner=request.user
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(data={ "message": "Você deve ir na palestra para poder avaliá-la" }, status=status.HTTP_200_OK)
-    '''
-    
     queryset = Form.objects.all()
     serializer_class = FormSerializer
 
