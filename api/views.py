@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import generics
+from rest_framework import mixins
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import *
@@ -151,9 +152,9 @@ class PalestraEdit(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #################################
-'''
+        
 class FormPost(generics.CreateAPIView):
-    
+    '''
     def post(self, request, id):
 
         palestra = get_object_or_404(Palestra, id=id)
@@ -169,16 +170,14 @@ class FormPost(generics.CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data={ "message": "Você deve ir na palestra para poder avaliá-la" }, status=status.HTTP_200_OK)
+    '''
     
     queryset = Form.objects.all()
     serializer_class = FormSerializer
-    print("oi")
-    
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-    
-    print("oi oi oi")
 
+    def perform_create(self, serializer):
+
+        serializer.save(owner=self.request.user)
 
 
 
@@ -190,7 +189,7 @@ class VerRespostasForms(APIView):
         
         return Response(data)
     
-'''
+
 
 ####################################
 
@@ -266,12 +265,11 @@ class FoiNaPalestraList(APIView):
 
 class PalPorDia(APIView):
 
-    def get(self, request, str):
+    def get(self, request, date):
         
         #CADA "data" É UMA COISA DIFERENTE, ATENÇÃO
 
-        palestra = Palestra.objects.filter(data=str).order_by('horario')
-        #ordering = ['horario']
+        palestra = Palestra.objects.filter(data=date).order_by('horario')
 
         data = PalestraSerializer(palestra, many=True).data
 

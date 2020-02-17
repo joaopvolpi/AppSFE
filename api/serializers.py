@@ -21,7 +21,7 @@ class FormSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        #owner = serializers.ReadOnlyField(source='owner.email')
+        owner = serializers.ReadOnlyField(source='owner.email')
 
         model = Form
         fields = '__all__'

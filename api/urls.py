@@ -10,14 +10,14 @@ schema_view = get_swagger_view(title='API')
 
 urlpatterns = [
     path("palestra/", PalestraList.as_view()),
-    path("p/<str:str>", PalPorDia.as_view()),
+    path("p/<str:date>", PalPorDia.as_view()), #PALESTRA POR DIA, ORDENADO POR HORA
 
     path("palestra/<int:pk>/", PalestraDetail.as_view()),
     path("palestra/post/", PalestraPost.as_view()),
     path("palestra/delete/<int:pk>/", PalestraDelete.as_view()),
     path("palestra/update/<int:pk>/", PalestraEdit.as_view()),
 
-    #path("form/<int:id>/", FormPost.as_view()),                #USUARIO AVALIA A PALESTRA QUE VISITOU
+    path("form/<int:id>/", FormPost.as_view()),                #USUARIO AVALIA A PALESTRA QUE VISITOU
     
 
     path("users/", UserList.as_view()),                            #VER LISTA DE USUARIOS  -ADMIN
