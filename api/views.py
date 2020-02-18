@@ -263,8 +263,8 @@ class ValidacaoView(APIView):
 
 class FoiNaPalestraList(APIView):
 
-    #renderer_classes = [TemplateHTMLRenderer]
-    #template_name = 'foinapalestra.html'
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'foinapalestra.html'
 
     def get(self, request, id):
         users = User.objects.filter(foi_na_palestra=id)
@@ -275,7 +275,7 @@ class FoiNaPalestraList(APIView):
         
         data = UserSerializer(users, many=True).data
 
-        return Response(data)
+        return Response({'palestra': palestra, 'users': users})
 
 class PalPorDia(APIView):
 
