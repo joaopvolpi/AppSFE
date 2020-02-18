@@ -92,7 +92,7 @@ class PalestraDetail(APIView):
         
         '''
         serializer = PalestraSerializer(palestra, context={'request': request})
-
+        print(request.query_params)
         return Response(serializer.data)
 
 
@@ -152,24 +152,53 @@ class PalestraEdit(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #################################
-        
-class FormPost(generics.CreateAPIView):
+
+
+class FormPost(generics.CreateAPIView):#generics.CreateAPIView
 
     queryset = Form.objects.all()
     serializer_class = FormSerializer
     '''
-    palestra = get_object_or_404(Palestra, id=id)
-    print(palestra)
+    def post(self, request, id):
+        palestra = get_object_or_404(Palestra, id=id)  
+        return Response({"message": "iha"}, status=status.HTTP_200_OK)
+    '''
+
+       # if palestra.favorito.filter(id=request.user.id).exists():
+    
+    def post(self, request, id):
+        if request.user.foi_na_palestra.filter(id=id).exists() and not Form.objects.filter(pa_id=get_object_or_404(Palestra, id=id) ,owner=request.user).exists():
+            
+            print(request.user.foi_na_palestra.filter(id=id).exists())
+            print(Form.objects.filter(pa_id=get_object_or_404(Palestra, id=id) ,owner=request.user).exists())
+            
+            pergunta1 = request.data['Pergunta1']
+            pergunta2 = request.data['Pergunta2']
+            pergunta3 = request.data['Pergunta3']
+            pergunta4 = request.data['Pergunta4']
+            pergunta5 = request.data['Pergunta5']
+            palestra = get_object_or_404(Palestra, id=id)  
+            usuario = request.user 
+
+
+            form = Form(Pergunta1=pergunta1,Pergunta2=pergunta2,Pergunta3=pergunta3,Pergunta4=pergunta4,Pergunta5=pergunta5, pa_id=palestra, owner=usuario)
+            form.save()
+            data = FormSerializer(form).data
+            return Response({"message": "Respostas enviadas com sucesso!"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Você não pode avaliar essa palestra"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        
     '''
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
-
-
+        print("OI")
+        serializer.save(owner=self.request.user, pa_id = self.request.query_params("id"))
+    ''' 
 
 class VerRespostasForms(APIView):
     
     def get(self, request, id):
-        form = Form.objects.filter(palestra_pertencente=id)
+        form = Form.objects.filter(pa_id=id)
         data = FormSerializer(form, many=True).data
         
         return Response(data)

@@ -19,7 +19,7 @@ class PalestraSerializer(serializers.ModelSerializer):
 
 class FormSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    #palestra_pertencente = serializers.CharField()
+    #pa_id = serializers.CharField()
 
     class Meta:
 
