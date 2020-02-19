@@ -245,10 +245,17 @@ class LoginView(APIView):
         email = request.data.get("email")
         password = request.data.get("password")
         user = authenticate(email=email, password=password)
+        Token.objects.get_or_create(user=user)
         if user:
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Senha ou email incorreto"}, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response({"message": "Logout realizado com sucesso!"}, status=status.HTTP_200_OK)
 
 
 class ValidacaoView(APIView):
