@@ -42,7 +42,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     nome = models.CharField('nome', max_length=30, blank=False)
     dre = models.CharField('dre', max_length=9, blank=True)
-    foto_perfil = models.ImageField(blank=True,null=True,upload_to="fotos_perfil")
     is_staff = models.BooleanField('Eh da equipe?',blank=True,default=False)
     objects = UserManager()
 

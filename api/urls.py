@@ -28,7 +28,6 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),           #FAZER LOGOUT (método get)
     path("createusers/", UserCreate.as_view(), name="user_create"), #CRIA OS USUARIOS  -ADMIN
 
-    path("addfotoperfil/", AddFotoPerfilView.as_view()), 
     path("favoritar/<int:id>/", FavoriteView().as_view(), name="favoritar"),  
     path("verfavoritos/", ListaFavs.as_view(), name="lista_favoritos"),
 

@@ -29,23 +29,7 @@ que favoritaram a palestra.
 
 
 '''
-
-
-class AddFotoPerfilView(APIView):
-    def put(self,request):   #VIEW PARA ADICIONAR FOTO DE PERFIL
-
-        foto_perfil = request.data["foto_perfil"] 
-        user = get_object_or_404(User, id=request.user.id)
-
-        user.foto_perfil = foto_perfil
-
-        user.save()
-
-        return Response(data={ "message": "Foto adicionada" }, status=status.HTTP_200_OK) 
-        
-
-
-
+      
 class FavoriteView(APIView):
     def get(self, request, id):
         palestra = get_object_or_404(Palestra, id=id)
