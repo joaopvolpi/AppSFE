@@ -8,9 +8,6 @@ from .models import *
 
 class PalestraSerializer(serializers.ModelSerializer):
 
-    #favorito = serializers.StringRelatedField(many=True)  
-    #user =  self.context['request'].user
-
     class Meta:
 
         model = Palestra

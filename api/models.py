@@ -62,12 +62,13 @@ class Palestra(models.Model):
     
     tema = models.CharField(max_length=100)
     palestrante = models.CharField(max_length=100)
-    descricao_palestra = models.CharField(max_length=1000)
-    descricao_palestrante = models.CharField(max_length=1000)
-    foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
+    descricaopalestra = models.CharField(max_length=1000)
+    descricaopalestrante = models.CharField(max_length=1000)
+    fotopalestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
     sala = models.CharField(max_length=20)
-    horario = models.TimeField()
-    data = models.CharField(max_length=10)
+    inicio = models.TimeField()
+    termino = models.TimeField()
+    dia = models.CharField(max_length=10)
     
 
     favorito = models.ManyToManyField(User, related_name="favorito", blank=True) 

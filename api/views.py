@@ -95,15 +95,16 @@ class PalestraPost(APIView):
 
     def post(self, request):
         tema = request.data['tema']
-        descricao_palestra = request.data['descricao_palestra']
+        descricao_palestra = request.data['descricaopalestra']
         palestrante = request.data['palestrante']
-        descricao_palestrante = request.data['descricao_palestrante']
+        descricao_palestrante = request.data['descricaopalestrante']
         sala = request.data['sala']
-        horario = request.data['horario']
-        data = request.data['data']
-        foto_palestrante = request.data['foto_palestrante']
+        inicio = request.data['inicio']
+        termino = request.data['termino']
+        data = request.data['dia']
+        foto_palestrante = request.data['fotopalestrante']
 
-        postagem = Palestra(tema= tema, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, horario=horario, data=data, foto_palestrante=foto_palestrante)
+        postagem = Palestra(tema= tema, termino=termino, descricaopalestra=descricao_palestra, palestrante=palestrante, descricaopalestrante=descricao_palestrante, sala=sala, horario=horario, dia=data, fotopalestrante=fotopalestrante)
         postagem.save()
         data = PalestraSerializer(postagem).data
         return Response(data)
