@@ -106,7 +106,7 @@ class PalestraPost(APIView):
 
         postagem = Palestra(tema= tema, termino=termino, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, inicio=inicio, dia=data, foto_palestrante=foto_palestrante)
         postagem.save()
-        
+
         '''
         tema = request.data['tema']
         descricao_palestra = request.data['descricaopalestra']
@@ -246,8 +246,8 @@ class LoginView(APIView):
         email = request.data.get("email")
         password = request.data.get("password")
         user = authenticate(email=email, password=password)
-        Token.objects.get_or_create(user=user)
         if user:
+            Token.objects.get_or_create(user=user)
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Senha ou email incorreto"}, status=status.HTTP_400_BAD_REQUEST)
