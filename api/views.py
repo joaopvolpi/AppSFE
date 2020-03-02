@@ -275,7 +275,7 @@ class PalPorDia(APIView):
         
         #CADA "data" É UMA COISA DIFERENTE, ATENÇÃO
 
-        palestra = Palestra.objects.filter(data=date).order_by('inicio')
+        palestra = Palestra.objects.filter(dia=date).order_by('inicio')
 
         data = PalestraSerializer(palestra, many=True).data
 
