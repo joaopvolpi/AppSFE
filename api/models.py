@@ -62,9 +62,9 @@ class Palestra(models.Model):
     
     tema = models.CharField(max_length=100)
     palestrante = models.CharField(max_length=100)
-    descricaopalestra = models.CharField(max_length=1000)
-    descricaopalestrante = models.CharField(max_length=1000)
-    fotopalestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
+    descricao_palestra = models.CharField(max_length=1000)
+    descricao_palestrante = models.CharField(max_length=1000)
+    foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
     sala = models.CharField(max_length=20)
     inicio = models.TimeField()
     termino = models.TimeField()
