@@ -57,7 +57,7 @@ class ListaFavs(APIView):   #View que mostra a lista de favoritos do usuário
 
 class PalestraList(APIView):
     def get(self, request):
-        palestra = Palestra.objects.all().order_by('horario')
+        palestra = Palestra.objects.all().order_by('inicio')
         data = PalestraSerializer(palestra, many=True).data   #VIEW P/ VER LISTA DE PALESTRAS
         
         return Response(data)
@@ -102,9 +102,9 @@ class PalestraPost(APIView):
         inicio = request.data['inicio']
         termino = request.data['termino']
         data = request.data['dia']
-        foto_palestrante = request.data['fotopalestrante']
+        fotopalestrante = request.data['fotopalestrante']
 
-        postagem = Palestra(tema= tema, termino=termino, descricaopalestra=descricao_palestra, palestrante=palestrante, descricaopalestrante=descricao_palestrante, sala=sala, horario=horario, dia=data, fotopalestrante=fotopalestrante)
+        postagem = Palestra(tema= tema, termino=termino, descricaopalestra=descricao_palestra, palestrante=palestrante, descricaopalestrante=descricao_palestrante, sala=sala, inicio=inicio, dia=data, fotopalestrante=fotopalestrante)
         postagem.save()
         data = PalestraSerializer(postagem).data
         return Response(data)
@@ -275,7 +275,7 @@ class PalPorDia(APIView):
         
         #CADA "data" É UMA COISA DIFERENTE, ATENÇÃO
 
-        palestra = Palestra.objects.filter(data=date).order_by('horario')
+        palestra = Palestra.objects.filter(data=date).order_by('inicio')
 
         data = PalestraSerializer(palestra, many=True).data
 
