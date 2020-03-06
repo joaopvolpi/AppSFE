@@ -8,6 +8,9 @@ schema_view = get_swagger_view(title='API')
 
 #from rest_framework.schemas import get_schema_view
 
+from django.conf import settings
+from django.conf.urls.static import static 
+
 urlpatterns = [
     path("palestra/", PalestraList.as_view()),
     path("p/<str:date>/", PalPorDia.as_view()), #PALESTRA POR DIA, ORDENADO POR HORA
@@ -35,14 +38,7 @@ urlpatterns = [
 
     path("foinapalestra/<int:id>/", FoiNaPalestraList.as_view()), 
 
-
-
-    #Essa URL abaixo são apenas para documentar, apesar de não estar funcionando direito
-
-    path("swagger/", schema_view), 
-
-
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
