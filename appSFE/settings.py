@@ -123,7 +123,7 @@ else:
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'appSFE',
         'USER': 'volpi',
-        'PASSWORD': 'abelha123',
+        'PASSWORD': 'Pipoca12',
         'HOST': 'localhost',
         'PORT': '',
     }
