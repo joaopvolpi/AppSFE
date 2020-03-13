@@ -28,7 +28,7 @@ MEDIA_URL = "/media/"
 SECRET_KEY = '6kgtqlbz_s%%9o&^!ryyet^2o1513))7ojnlx5$0h8j*oyfi#$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','appsfe.herokuapp.com', '67.205.161.203']
 
@@ -110,6 +110,7 @@ WSGI_APPLICATION = 'appSFE.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+'''
 if DEBUG:
     DATABASES = {
         'default': {
@@ -118,15 +119,16 @@ if DEBUG:
         }
     }
 else:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'appsfe',
-        'USER': 'volpi',
-        'PASSWORD': 'abelha123',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+'''
+DATABASES = {
+'default': {
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'appsfe',
+    'USER': 'volpi',
+    'PASSWORD': 'abelha123',
+    'HOST': 'localhost',
+    'PORT': '',
+}
 }
 
 # Password validation
