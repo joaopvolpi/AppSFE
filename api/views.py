@@ -245,12 +245,21 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
+
+        if User.objects.filter(email=email):
+            email_existe = True
+        else:
+            email_existe = False
+
         user = authenticate(email=email, password=password)
         if user:
             Token.objects.get_or_create(user=user)
             return Response({"token": user.auth_token.key})
-        else:
-            return Response({"error": "Senha ou email incorreto"}, status=status.HTTP_400_BAD_REQUEST)
+        elif email_existe==False:
+            return Response({"error": "Email não cadastrado!"}, status=status.HTTP_400_BAD_REQUEST)
+        elif email_existe==True:
+            return Response({"error": "Senha incorreta"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     def get(self, request, format=None):
