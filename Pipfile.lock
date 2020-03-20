@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ccab860d57d4dace25d1ab36b427e34f5fd8996825bb82a37891c98acfe306e8"
+            "sha256": "02ed6f763c40f1718f044c0dca85a687fcdacc2858705dc2d7ccb67b567eb8e9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -95,14 +95,6 @@
             ],
             "index": "pypi",
             "version": "==0.3.1"
-        },
-        "django-qr-code": {
-            "hashes": [
-                "sha256:2f255cfc901447110330f3d0c3d6f5d6847e14aa85e991a759295eff030e92be",
-                "sha256:48123e9cdea5b961158a84a26c2523eb02769dac37ad4bea18f7511e49a7f784"
-            ],
-            "index": "pypi",
-            "version": "==1.1.0"
         },
         "django-rest-swagger": {
             "hashes": [
@@ -288,13 +280,6 @@
             ],
             "index": "pypi",
             "version": "==5.3.1"
-        },
-        "qrcode": {
-            "hashes": [
-                "sha256:3996ee560fc39532910603704c82980ff6d4d5d629f9c3f25f34174ce8606cf5",
-                "sha256:505253854f607f2abf4d16092c61d4e9d511a3b4392e60bff957a68592b04369"
-            ],
-            "version": "==6.1"
         },
         "reportlab": {
             "hashes": [

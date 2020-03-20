@@ -16,7 +16,6 @@ django-rest-swagger = "*"
 pyyaml = "*"
 gunicorn = "*"
 django-cors-headers = "*"
-django-qr-code = "*"
 xhtml2pdf = "*"
 
 [requires]
