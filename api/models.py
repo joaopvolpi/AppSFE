@@ -77,6 +77,10 @@ class Palestra(models.Model):
     
     def __str__(self):
         return self.tema + " - " + self.palestrante 
+'''
+class QRCode(models.Model):
+    foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
+'''
 
 
 class Form(models.Model):

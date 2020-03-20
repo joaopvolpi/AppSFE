@@ -67,7 +67,26 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_swagger',
     'corsheaders',
+    'qr_code',
 ]
+
+###############
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    },
+    'qr-code': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'qr-code-cache',
+        'TIMEOUT': 3600
+    }
+}
+
+QR_CODE_CACHE_ALIAS = 'qr-code'
+#################
+
+
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -92,7 +111,7 @@ ROOT_URLCONF = 'appSFE.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [], #os.path.join(BASE_DIR, 'templates')
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -110,7 +129,7 @@ WSGI_APPLICATION = 'appSFE.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-'''
+
 if DEBUG:
     DATABASES = {
         'default': {
@@ -119,17 +138,16 @@ if DEBUG:
         }
     }
 else:
-'''
-DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'appsfe',
-    'USER': 'volpi',
-    'PASSWORD': 'abelha123',
-    'HOST': 'localhost',
-    'PORT': '',
-}
-}
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'appsfe',
+        'USER': 'volpi',
+        'PASSWORD': 'abelha123',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

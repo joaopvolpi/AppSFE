@@ -15,6 +15,14 @@ from rest_framework.renderers import TemplateHTMLRenderer
 
 from rest_framework import status
 from django.contrib.auth import get_user_model
+
+import qrcode
+
+from django.views.generic import View
+
+from appSFE.utils import render_to_pdf 
+from django.template.loader import get_template
+
 User = get_user_model()
 
 #from rest_framework_swagger.views import get_swagger_view
@@ -23,9 +31,10 @@ User = get_user_model()
 
 '''
 
--Ajeitar o serializer para o favorito da palestra retornar True ou False quando
-requisitado por determinado usuário, e não o favorito mostrar a lista de usuários
-que favoritaram a palestra. 
+Comandos para dar dps do git pull no digital ocean
+
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
 
 
 '''
@@ -52,6 +61,7 @@ class ListaFavs(APIView):   #View que mostra a lista de favoritos do usuário
         user = request.user
         lista_favs = user.favorito.all()            
         data = PalestraSerializer(lista_favs, many=True).data
+
         return Response(data)
 
 
@@ -106,6 +116,10 @@ class PalestraPost(APIView):
 
         postagem = Palestra(tema= tema, termino=termino, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, inicio=inicio, dia=data, foto_palestrante=foto_palestrante)
         postagem.save()
+        post = get_object_or_404(Palestra, tema=tema)
+        img = qrcode.make('http://67.205.161.203/validar/'+str(post.id)+'/')
+
+        img.save('media/fotos/qrpalestra_'+str(post.id)+'.png')
 
         '''
         tema = request.data['tema']
@@ -306,6 +320,17 @@ class PalPorDia(APIView):
 
         return Response(data)
 
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        palestras = Palestra.objects.all()
+
+        template = get_template('listaqrcode.html')
+        data = {
+             'palestras': palestras,
+        }
+        pdf = render_to_pdf('listaqrcode.html', data)
+        html = template.render(data)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 
 
