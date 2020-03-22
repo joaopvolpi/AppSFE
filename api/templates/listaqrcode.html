@@ -1,8 +1,8 @@
 <html><body>
 
 {%for palestra in palestras%}
-<h1>{{palestra}}</h1>
+<h1>{{palestra.tema}} - {{palestra.dia}} {{palestra.inicio}} - Sala: {{palestra.sala}}</h1>
 <img src="http://67.205.161.203/media/fotos/qrpalestra_{{palestra.id}}.png">
-<br><br>
+<br><br><br><br><br><br>
 {% endfor %}
 </body></html>

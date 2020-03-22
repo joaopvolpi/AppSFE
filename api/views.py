@@ -320,7 +320,7 @@ class PalPorDia(APIView):
 
         return Response(data)
 
-class GeneratePdf(View):
+class GeneratePdf(APIView):
     def get(self, request, *args, **kwargs):
         
         permission_classes = [IsAdminUser]
@@ -332,7 +332,6 @@ class GeneratePdf(View):
              'palestras': palestras,
         }
         pdf = render_to_pdf('listaqrcode.html', data)
-        html = template.render(data)
         return HttpResponse(pdf, content_type='application/pdf')
 
 
