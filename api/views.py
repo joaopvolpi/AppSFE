@@ -322,8 +322,11 @@ class PalPorDia(APIView):
 
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
-        palestras = Palestra.objects.all()
+        
+        permission_classes = [IsAdminUser]
 
+        palestras = Palestra.objects.all()
+    
         template = get_template('listaqrcode.html')
         data = {
              'palestras': palestras,

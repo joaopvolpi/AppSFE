@@ -60,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Palestra(models.Model):
     
-    tema = models.CharField(max_length=100)
+    tema = models.CharField(max_length=100, unique=True)
     palestrante = models.CharField(max_length=100)
     descricao_palestra = models.CharField(max_length=1000)
     descricao_palestrante = models.CharField(max_length=1000)
