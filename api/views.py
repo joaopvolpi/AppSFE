@@ -334,20 +334,74 @@ class GeneratePdf(APIView):
         pdf = render_to_pdf('listaqrcode.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
 
+class ParceirosGet(APIView):
+
+    def get(self, request):
+        parceiros = Parceiro.objects.all()
+
+        data = ParceiroSerializer(parceiros, many=True).data
+
+        return Response(data)
+
+class ParceiroPost(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        logo = request.data['logo']
+
+        parceiro = Parceiro(logo=logo)
+        parceiro.save()
+        data = ParceiroSerializer(parceiro).data
+
+        return Response(data)
 
 
+class ParceiroDelete(APIView):
+    permission_classes = [IsAdminUser]
+
+    def delete(self, request, pk):
+        parceiro = get_object_or_404(Parceiro, pk=pk)
+        parceiro.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CorPut(APIView):
+    permission_classes = [IsAdminUser]
+    
+    def put(self, request):
+        cores = get_object_or_404(Cores, pk=1)
+
+        serializer = CoresSerializer(cores, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CriarObjetoCor(APIView):
+
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        primaria = request.data['primaria']
+        secundaria = request.data['secundaria']
+        terciaria = request.data['terciaria']
+        quaternaria = request.data['quaternaria']
 
 
-'''
-pergunta1 = request.data['pergunta1']
-pergunta2 = request.data['pergunta2']
-pergunta3 = request.data['pergunta3']
-pergunta4 = request.data['pergunta4']
-pergunta5 = request.data['pergunta5']
+        cores = Cores(primaria=primaria, secundaria=secundaria, terciaria=terciaria, quaternaria=quaternaria)
+        cores.save()
+        data = CoresSerializer(cores).data
 
-form = Form(Pergunta1=pergunta1,Pergunta2=pergunta2,Pergunta3=pergunta3,Pergunta4=pergunta4,Pergunta5=pergunta5)
-form.save()
-data = FormSerializer(form).data
-'''
+        return Response(data)
+
+
+class GetCor(APIView):
+    def get(self, request):
+        
+        cores = get_object_or_404(Cores, pk=1)
+
+        data = CoresSerializer(cores).data
+
+        return Response(data)

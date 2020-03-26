@@ -77,10 +77,12 @@ class Palestra(models.Model):
     
     def __str__(self):
         return self.tema + " - " + self.palestrante 
-'''
-class QRCode(models.Model):
-    foto_palestrante = models.ImageField(blank=True,null=True,upload_to="fotos")
-'''
+
+
+
+class Parceiro(models.Model):
+    
+    logo = models.ImageField(blank=True,null=True,upload_to="fotos")
 
 
 class Form(models.Model):
@@ -95,5 +97,11 @@ class Form(models.Model):
     Pergunta3 = models.CharField(max_length=100)
     Pergunta4 = models.CharField(max_length=100)
     Pergunta5 = models.CharField(max_length=100)
+
+class Cores(models.Model):
+    primaria = models.CharField(max_length=7)
+    secundaria = models.CharField(max_length=7)
+    terciaria = models.CharField(max_length=7)
+    quaternaria = models.CharField(max_length=7)
 
  

@@ -12,6 +12,21 @@ class PalestraSerializer(serializers.ModelSerializer):
 
         model = Palestra
         exclude = ['foi_na_palestra', 'favorito']
+
+
+class ParceiroSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Parceiro
+        fields = '__all__'
+
+class CoresSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Cores
+        exclude = ['id']
         
 
 class FormSerializer(serializers.ModelSerializer):

@@ -125,14 +125,14 @@ if DEBUG:
 else:
 '''
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'appsfe',
-    'USER': 'volpi',
-    'PASSWORD': 'abelha123',
-    'HOST': 'localhost',
-    'PORT': '',
-}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'appsfe',
+        'USER': 'volpi',
+        'PASSWORD': 'abelha123',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
 # Password validation

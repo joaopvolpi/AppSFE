@@ -6,6 +6,7 @@ User = get_user_model()
 
 admin.site.register(Palestra)
 admin.site.register(User)
+admin.site.register(Parceiro)
 
 
 
