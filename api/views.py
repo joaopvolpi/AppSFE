@@ -405,3 +405,5 @@ class GetCor(APIView):
         data = CoresSerializer(cores).data
 
         return Response(data)
+
+#aaa
