@@ -76,17 +76,9 @@ class PalestraList(APIView):
 class PalestraDetail(APIView):
     def get(self, request, pk):
         palestra = get_object_or_404(Palestra, pk=pk)     #VIEW P/ VER PALESTRA PARTICULAR
-        '''
-        if palestra.favorito.filter(id=request.user.id).exists():
-            fav_user = True
-        else:
-            fav_user = False
 
-        serializer = PalestraSerializer(palestra, context={'fav_user': fav_user})
+        serializer = PalestraSerializer(palestra)
         
-        '''
-        serializer = PalestraSerializer(palestra, context={'request': request})
-        print(request.query_params)
         return Response(serializer.data)
 
 
@@ -294,19 +286,18 @@ class ValidacaoView(APIView):
 
 class FoiNaPalestraList(APIView):
 
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'foinapalestra.html'
-
     def get(self, request, id):
+
+        permission_classes = [IsAdminUser]
+
         users = User.objects.filter(foi_na_palestra=id)
         palestra = get_object_or_404(Palestra, id=id)
-
-        serializer_class = UserSerializer
-        permission_classes = [IsAdminUser]
         
-        data = UserSerializer(users, many=True).data
+        userser = UserSerializer(users, many=True).data
+        palser = PalestraSerializer(palestra).data
 
-        return Response({'palestra': palestra, 'users': users})
+        vectordata = [userser, palser]
+        return Response(vectordata)
 
 class PalPorDia(APIView):
 
@@ -406,4 +397,4 @@ class GetCor(APIView):
 
         return Response(data)
 
-#aaa
+#DA PROXIMA VEZ QUE FIZER UPLOAD VAI DAR ERRO PQ PRECISA DO pip install drf-yasg no servidor

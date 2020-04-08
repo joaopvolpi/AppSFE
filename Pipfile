@@ -17,6 +17,7 @@ pyyaml = "*"
 gunicorn = "*"
 django-cors-headers = "*"
 xhtml2pdf = "*"
+drf-yasg = "*"
 
 [requires]
 python_version = "3.6"
