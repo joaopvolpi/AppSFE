@@ -41,6 +41,7 @@ urlpatterns = [
     path("users/", UserList.as_view()),                            #VER LISTA DE USUARIOS  -ADMIN
     path("users/<int:pk>/", UserDetail.as_view()),                 #VER DETERMINADO USUARIO
     path("login/", LoginView.as_view(), name="Login"),             #FAZER LOGIN (método post)
+    path("loginadmin/", LoginAdminView.as_view()),             #FAZER LOGIN ADMIN NO SW(método post)
     path("logout/", LogoutView.as_view(), name="logout"),           #FAZER LOGOUT (método get)
     path("createusers/", UserCreate.as_view(), name="user_create"), #CRIA OS USUARIOS  -ADMIN
 

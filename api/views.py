@@ -267,6 +267,27 @@ class LoginView(APIView):
             return Response({"error": "Senha incorreta"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoginAdminView(APIView):
+    permission_classes = ()
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        if User.objects.filter(email=email):
+            email_existe = True
+        else:
+            email_existe = False
+
+        user = authenticate(email=email, password=password)
+        if user:
+            if user.is_staff:
+                Token.objects.get_or_create(user=user)
+                return Response({"token": user.auth_token.key})
+            else:
+                return Response({"error": "Você não tem autorização"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error": "Dados incorretos"}, status=status.HTTP_400_BAD_REQUEST)
+        
 class LogoutView(APIView):
     def get(self, request, format=None):
         # simply delete the token to force a login
@@ -290,14 +311,12 @@ class FoiNaPalestraList(APIView):
 
         permission_classes = [IsAdminUser]
 
-        users = User.objects.filter(foi_na_palestra=id)
         palestra = get_object_or_404(Palestra, id=id)
+        users = User.objects.filter(foi_na_palestra=id)
         
-        userser = UserSerializer(users, many=True).data
-        palser = PalestraSerializer(palestra).data
+        data = UserSerializer(users, many=True).data
 
-        vectordata = [userser, palser]
-        return Response(vectordata)
+        return Response(data)
 
 class PalPorDia(APIView):
 
