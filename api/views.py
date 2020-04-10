@@ -25,8 +25,7 @@ from django.template.loader import get_template
 
 User = get_user_model()
 
-#from rest_framework_swagger.views import get_swagger_view
-#schema_view = get_swagger_view(title='API')
+#teste comando
 
 
 '''
