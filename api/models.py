@@ -103,5 +103,14 @@ class Cores(models.Model):
     secundaria = models.CharField(max_length=7)
     terciaria = models.CharField(max_length=7)
     quaternaria = models.CharField(max_length=7)
+    texto = models.CharField(max_length=7, blank=True, null=True)
+
+
+class Dias(models.Model):
+    pri = models.CharField(max_length=10)
+    seg = models.CharField(max_length=10)
+    ter = models.CharField(max_length=10)
+    qua = models.CharField(max_length=10)
+    qui = models.CharField(max_length=10)
 
  

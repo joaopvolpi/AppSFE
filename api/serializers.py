@@ -27,11 +27,17 @@ class CoresSerializer(serializers.ModelSerializer):
 
         model = Cores
         exclude = ['id']
+
+class DiasSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Dias
+        exclude = ['id']
         
 
 class FormSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    #pa_id = serializers.CharField()
 
     class Meta:
 

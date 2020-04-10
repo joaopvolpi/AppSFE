@@ -65,6 +65,9 @@ urlpatterns = [
     path("cores/edit/", CorPut.as_view()),
     path("cores/", GetCor.as_view()),
 
+    path("dias/post/", CriarObjetoDia.as_view()), #NÃO DEVE SER ACESSADO NUNCA
+    path("dias/edit/", DiasPut.as_view()),
+    path("dias/", GetDias.as_view()),
 
 
     #path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

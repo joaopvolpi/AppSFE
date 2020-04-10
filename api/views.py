@@ -379,7 +379,10 @@ class CorPut(APIView):
     permission_classes = [IsAdminUser]
     
     def put(self, request):
-        cores = get_object_or_404(Cores, pk=1)
+
+        #A COR É SOMENTE EDITADA, NÃO ADICIONADA, POR ISSO O pk=1
+
+        cores = get_object_or_404(Cores, pk=1)  
 
         serializer = CoresSerializer(cores, data=request.data)
 
@@ -390,7 +393,7 @@ class CorPut(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CriarObjetoCor(APIView):
-
+    #Essa view só deve ser usada uma vez, pq ela cria o objeto cor pra guardar no bd, que dps só vai ser editado pra mudar as cores
     permission_classes = [IsAdminUser]
 
     def post(self, request):
@@ -398,9 +401,10 @@ class CriarObjetoCor(APIView):
         secundaria = request.data['secundaria']
         terciaria = request.data['terciaria']
         quaternaria = request.data['quaternaria']
+        texto = request.data['texto']
 
 
-        cores = Cores(primaria=primaria, secundaria=secundaria, terciaria=terciaria, quaternaria=quaternaria)
+        cores = Cores(primaria=primaria, secundaria=secundaria, terciaria=terciaria, quaternaria=quaternaria, texto=texto)
         cores.save()
         data = CoresSerializer(cores).data
 
@@ -414,6 +418,50 @@ class GetCor(APIView):
 
         data = CoresSerializer(cores).data
 
+        return Response(data)        
+
+class CriarObjetoDia(APIView):
+    #Essa view só deve ser usada uma vez, pq ela cria o objeto dia pra guardar no bd, que dps só vai ser editado pra mudar os dias
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        pri = request.data['pri']
+        seg = request.data['seg']
+        ter = request.data['ter']
+        qua = request.data['qua']
+        qui = request.data['qui']
+
+
+        dias = Dias(pri=pri, seg=seg, ter=ter, qua=qua, qui=qui)
+        dias.save()
+        data = DiasSerializer(dias).data
+
         return Response(data)
 
-#DA PROXIMA VEZ QUE FIZER UPLOAD VAI DAR ERRO PQ PRECISA DO pip install drf-yasg no servidor
+
+
+class GetDias(APIView):
+    def get(self, request):
+        
+        dias = get_object_or_404(Dias, pk=1)
+
+        data = DiasSerializer(dias).data
+
+        return Response(data)
+
+class DiasPut(APIView):
+    permission_classes = [IsAdminUser]
+    
+    def put(self, request):
+
+        #O DIA É SOMENTE EDITADO, NÃO ADICIONADO, POR ISSO O pk=1
+
+        dias = get_object_or_404(Dias, pk=1)  
+
+        serializer = DiasSerializer(dias, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
