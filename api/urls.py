@@ -52,8 +52,6 @@ urlpatterns = [
 
     path("foinapalestra/<int:id>/", FoiNaPalestraList.as_view()), 
 
-    path("qrlist/", GeneratePdf.as_view()),
-
     path("parceiros/", ParceirosGet.as_view()),
 
     path("parceiros/post/", ParceiroPost.as_view()),

@@ -11,21 +11,17 @@ from rest_framework.permissions import *
 from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from django.http import JsonResponse
-from rest_framework.renderers import TemplateHTMLRenderer
+#from rest_framework.renderers import TemplateHTMLRenderer
 
 from rest_framework import status
 from django.contrib.auth import get_user_model
 
-import qrcode
-
 from django.views.generic import View
 
-from appSFE.utils import render_to_pdf 
-from django.template.loader import get_template
+#from appSFE.utils import render_to_pdf 
+#from django.template.loader import get_template
 
 User = get_user_model()
-
-#teste comando
 
 
 '''
@@ -108,24 +104,6 @@ class PalestraPost(APIView):
         postagem = Palestra(tema= tema, termino=termino, descricao_palestra=descricao_palestra, palestrante=palestrante, descricao_palestrante=descricao_palestrante, sala=sala, inicio=inicio, dia=data, foto_palestrante=foto_palestrante)
         postagem.save()
         post = get_object_or_404(Palestra, tema=tema)
-        img = qrcode.make('http://67.205.161.203/validar/'+str(post.id)+'/')
-
-        img.save('media/fotos/qrpalestra_'+str(post.id)+'.png')
-
-        '''
-        tema = request.data['tema']
-        descricao_palestra = request.data['descricaopalestra']
-        palestrante = request.data['palestrante']
-        descricao_palestrante = request.data['descricaopalestrante']
-        sala = request.data['sala']
-        inicio = request.data['inicio']
-        termino = request.data['termino']
-        data = request.data['dia']
-        fotopalestrante = request.data['fotopalestrante']
-
-        postagem = Palestra(tema= tema, termino=termino, descricaopalestra=descricao_palestra, palestrante=palestrante, descricaopalestrante=descricao_palestrante, sala=sala, inicio=inicio, dia=data, fotopalestrante=fotopalestrante)
-        postagem.save()
-        '''
         
         data = PalestraSerializer(postagem).data
         return Response(data)
@@ -329,6 +307,8 @@ class PalPorDia(APIView):
 
         return Response(data)
 
+#passei a responsa pro front
+'''
 class GeneratePdf(APIView):
     def get(self, request, *args, **kwargs):
         
@@ -342,6 +322,7 @@ class GeneratePdf(APIView):
         }
         pdf = render_to_pdf('listaqrcode.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
+'''
 
 class ParceirosGet(APIView):
 
