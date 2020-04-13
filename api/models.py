@@ -102,6 +102,7 @@ class Cores(models.Model):
     primaria = models.CharField(max_length=7)
     secundaria = models.CharField(max_length=7)
     terciaria = models.CharField(max_length=7)
+    dark_terciaria = models.CharField(max_length=7, blank=True, null=True)
     quaternaria = models.CharField(max_length=7)
     texto = models.CharField(max_length=7, blank=True, null=True)
 

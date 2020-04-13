@@ -380,11 +380,12 @@ class CriarObjetoCor(APIView):
         primaria = request.data['primaria']
         secundaria = request.data['secundaria']
         terciaria = request.data['terciaria']
+        dark_terciaria = request.data['dark_terciaria']
         quaternaria = request.data['quaternaria']
         texto = request.data['texto']
 
 
-        cores = Cores(primaria=primaria, secundaria=secundaria, terciaria=terciaria, quaternaria=quaternaria, texto=texto)
+        cores = Cores(primaria=primaria, secundaria=secundaria, terciaria=terciaria, dark_terciaria= dark_terciaria, quaternaria=quaternaria, texto=texto)
         cores.save()
         data = CoresSerializer(cores).data
 
