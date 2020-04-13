@@ -217,7 +217,6 @@ class UserDetail(APIView):
 
         return Response(data)
 
-
 class UserCreate(generics.CreateAPIView):
     permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA CRIAR O USUÁRIO, POIS QUEREMOS QUE A PESSOA VÁ À BANCADA
     serializer_class = UserSerializer
@@ -446,3 +445,21 @@ class DiasPut(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class DeleteGeral(APIView):
+
+    permission_classes  = [IsAdminUser]
+
+    def delete(self, request):
+        users = User.objects.filter(is_superuser=False)
+        users.delete()
+
+        palestras = Palestra.objects.all()
+        palestras.delete()
+
+        parceiros = Parceiro.objects.all()
+        parceiros.delete()
+
+        return Response(data={ "message": "Tudo foi deletado!" },status=status.HTTP_200_OK)

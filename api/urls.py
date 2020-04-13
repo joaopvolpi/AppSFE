@@ -67,6 +67,7 @@ urlpatterns = [
     path("dias/edit/", DiasPut.as_view()),
     path("dias/", GetDias.as_view()),
 
+    path("deletageral/", DeleteGeral.as_view()),                   #DELETA GERAL         
 
     #path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     #path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
