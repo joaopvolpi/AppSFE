@@ -1,25 +1,19 @@
-from django.shortcuts import render
+#from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import generics
-from rest_framework import mixins
+#from rest_framework import mixins
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .models import *
 from .serializers import *
 from django.contrib.auth import authenticate
 from rest_framework.permissions import * 
-from django.http import HttpResponse
-from rest_framework.renderers import JSONRenderer
-from django.http import JsonResponse
-#from rest_framework.renderers import TemplateHTMLRenderer
-
+#from django.http import HttpResponse
+#from rest_framework.renderers import JSONRenderer
+#from django.http import JsonResponse
 from rest_framework import status
 from django.contrib.auth import get_user_model
-
 from django.views.generic import View
-
-#from appSFE.utils import render_to_pdf 
-#from django.template.loader import get_template
 
 User = get_user_model()
 
@@ -120,85 +114,6 @@ class PalestraDelete(APIView):
 
         return Response(status=status.HTTP_200_OK)
 
-
-class PalestraEdit(APIView):
-    permission_classes = [IsAdminUser]
-
-    def put(self, request, pk):
-        palestra = get_object_or_404(Palestra, pk=pk)
-
-        serializer = PalestraSerializer(palestra, data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#################################
-
-
-class FormPost(generics.CreateAPIView):#generics.CreateAPIView
-
-    queryset = Form.objects.all()
-    serializer_class = FormSerializer
-    '''
-    def post(self, request, id):
-        palestra = get_object_or_404(Palestra, id=id)  
-        return Response({"message": "iha"}, status=status.HTTP_200_OK)
-    '''
-
-       # if palestra.favorito.filter(id=request.user.id).exists():
-    
-    def post(self, request, id):
-        if request.user.foi_na_palestra.filter(id=id).exists() and not Form.objects.filter(pa_id=get_object_or_404(Palestra, id=id) ,owner=request.user).exists():
-            
-            print(request.user.foi_na_palestra.filter(id=id).exists())
-            print(Form.objects.filter(pa_id=get_object_or_404(Palestra, id=id) ,owner=request.user).exists())
-            
-            pergunta1 = request.data['Pergunta1']
-            pergunta2 = request.data['Pergunta2']
-            pergunta3 = request.data['Pergunta3']
-            pergunta4 = request.data['Pergunta4']
-            pergunta5 = request.data['Pergunta5']
-            palestra = get_object_or_404(Palestra, id=id)  
-            usuario = request.user 
-
-
-            form = Form(Pergunta1=pergunta1,Pergunta2=pergunta2,Pergunta3=pergunta3,Pergunta4=pergunta4,Pergunta5=pergunta5, pa_id=palestra, owner=usuario)
-            form.save()
-            data = FormSerializer(form).data
-            return Response({"message": "Respostas enviadas com sucesso!"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"message": "Você não pode avaliar essa palestra"}, status=status.HTTP_401_UNAUTHORIZED)
-
-        
-    '''
-    def perform_create(self, serializer):
-        print("OI")
-        serializer.save(owner=self.request.user, pa_id = self.request.query_params("id"))
-    ''' 
-
-class VerRespostasForms(APIView):
-    
-    def get(self, request, id):
-        form = Form.objects.filter(pa_id=id)
-        data = FormSerializer(form, many=True).data
-        
-        return Response(data)
-    
-
-
-####################################
-
-class FormDetail(APIView):
-    def get(self, request, pk):
-        form = get_object_or_404(Form, pk=pk)
-        data = FormSerializer(form).data
-
-        return Response(data)
-
-
 class UserList(APIView):
     permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA VER DADOS DOS USUARIOS
 
@@ -206,15 +121,6 @@ class UserList(APIView):
         user = User.objects.all()
         data = UserSerializer(user, many=True).data
         
-        return Response(data)
-
-class UserDetail(APIView):
-    permission_classes = [IsAdminUser] #DEVE SER ADMIN PARA VER DADOS DO USUARIO
-
-    def get(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        data = UserSerializer(user).data
-
         return Response(data)
 
 class UserCreate(generics.CreateAPIView):
@@ -306,22 +212,6 @@ class PalPorDia(APIView):
 
         return Response(data)
 
-#passei a responsa pro front
-'''
-class GeneratePdf(APIView):
-    def get(self, request, *args, **kwargs):
-        
-        permission_classes = [IsAdminUser]
-
-        palestras = Palestra.objects.all()
-    
-        template = get_template('listaqrcode.html')
-        data = {
-             'palestras': palestras,
-        }
-        pdf = render_to_pdf('listaqrcode.html', data)
-        return HttpResponse(pdf, content_type='application/pdf')
-'''
 
 class ParceirosGet(APIView):
 

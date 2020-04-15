@@ -6,10 +6,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
-'''
-from django.contrib.auth import get_user_model
-User = get_user_model()
-'''
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -56,8 +53,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         
         return self.nome
 
-
-
 class Palestra(models.Model):
     
     tema = models.CharField(max_length=100, unique=True)
@@ -78,25 +73,10 @@ class Palestra(models.Model):
     def __str__(self):
         return self.tema + " - " + self.palestrante 
 
-
-
 class Parceiro(models.Model):
     
     logo = models.ImageField(blank=True,null=True,upload_to="fotos")
 
-
-class Form(models.Model):
-
-
-    owner = models.ForeignKey('api.User', on_delete=models.CASCADE)
-
-    pa_id = models.ForeignKey(Palestra, on_delete=models.CASCADE)
-
-    Pergunta1 = models.CharField(max_length=100)
-    Pergunta2 = models.CharField(max_length=100)
-    Pergunta3 = models.CharField(max_length=100)
-    Pergunta4 = models.CharField(max_length=100)
-    Pergunta5 = models.CharField(max_length=100)
 
 class Cores(models.Model):
     primaria = models.CharField(max_length=7)

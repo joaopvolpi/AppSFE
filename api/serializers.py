@@ -36,15 +36,6 @@ class DiasSerializer(serializers.ModelSerializer):
         exclude = ['id']
         
 
-class FormSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-
-    class Meta:
-
-        model = Form
-        fields = '__all__'
-        
-
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
