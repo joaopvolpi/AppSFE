@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 User = get_user_model()
 from .views import *
-from .models import *
 
 class PalestraSerializer(serializers.ModelSerializer):
 
