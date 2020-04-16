@@ -16,7 +16,7 @@ class FavoriteView(APIView):
     def get(self, request, id):
         palestra = get_object_or_404(Palestra, id=id)
         if palestra.favorito.filter(id=request.user.id).exists():
-            palestra.favorito.remove(request.user)
+            palestra.favorito.remove(request.user.id)
             return Response(data={ "message": "Palestra removida dos favoritos" }, status=status.HTTP_200_OK)
         else:
             palestra.favorito.add(request.user)
