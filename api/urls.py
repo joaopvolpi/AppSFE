@@ -24,7 +24,7 @@ urlpatterns = [
     path("favoritar/<int:id>/", FavoriteView().as_view(), name="favoritar"),  
     path("verfavoritos/", ListaFavs.as_view(), name="lista_favoritos"),
 
-    path("validar/<int:id>/", ValidacaoView.as_view()), #ESSE EH O TESTE DO QR CODE SEM QR CODE
+    path("validar/<str:tema>/", ValidacaoView.as_view()), #ESSE EH O TESTE DO QR CODE SEM QR CODE
 
     path("foinapalestra/<int:id>/", FoiNaPalestraList.as_view()), 
 

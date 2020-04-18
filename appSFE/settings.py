@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'rest_framework.authtoken',
-    #'rest_framework_swagger',
     'corsheaders',
 ]
 
@@ -114,7 +113,7 @@ WSGI_APPLICATION = 'appSFE.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-'''
+
 if DEBUG:
     DATABASES = {
         'default': {
@@ -123,17 +122,16 @@ if DEBUG:
         }
     }
 else:
-'''
-DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'appsfe',
-    'USER': 'volpi',
-    'PASSWORD': 'abelha123',
-    'HOST': 'localhost',
-    'PORT': '',
-}
-}
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'appsfe',
+        'USER': 'volpi',
+        'PASSWORD': 'abelha123',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

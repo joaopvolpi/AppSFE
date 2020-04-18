@@ -130,8 +130,8 @@ class LogoutView(APIView):
         return Response({"message": "Logout realizado com sucesso!"}, status=status.HTTP_200_OK)
 
 class ValidacaoView(APIView):
-    def get(self, request, id):
-        palestra = get_object_or_404(Palestra, id=id)
+    def get(self, request, tema):
+        palestra = get_object_or_404(Palestra, tema=tema)
 
         if palestra.foi_na_palestra.filter(id=request.user.id).exists():
             return Response(data={ "message": "Sua presença já foi contabilizada" }, status=status.HTTP_200_OK)
