@@ -205,6 +205,7 @@ class CriarObjetoCor(APIView):
         return Response(data)
 
 class GetCor(APIView):
+    permission_classes=[AllowAny]
     def get(self, request):
         cores = get_object_or_404(Cores, pk=1)
         data = CoresSerializer(cores).data
@@ -225,6 +226,7 @@ class CriarObjetoDia(APIView):
         return Response(data)
 
 class GetDias(APIView):
+    permission_classes=[AllowAny]
     def get(self, request):
         dias = get_object_or_404(Dias, pk=1)
         data = DiasSerializer(dias).data
